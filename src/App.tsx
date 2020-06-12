@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import "./App.css";
+import { Typography, AppBar, Container, Card } from "@material-ui/core";
+import { store } from "./components/store/store";
+import { FetchCovidData } from "./components/fetch/Fetch";
+import { Chart } from "./components/chart/Chart";
 
 function App() {
+  const globalState = useContext(store);
+  console.log(globalState);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AppBar position="static">
+        <Typography variant="h4" component="h1" gutterBottom color="inherit">
+          Covid Tracker
+        </Typography>
+      </AppBar>
+      <FetchCovidData />
+      <Container maxWidth="sm">
+        <Card>
+          <Typography variant="h4" component="h2" gutterBottom color="inherit">
+            <Chart />
+          </Typography>
+        </Card>
+      </Container>
+    </>
   );
 }
 
