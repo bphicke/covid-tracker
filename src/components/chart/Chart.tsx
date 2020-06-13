@@ -1,70 +1,53 @@
-import React, { useContext, useEffect, useState } from "react";
-import Highcharts, { Options } from "highcharts";
+import React, { useContext } from "react";
+import Highcharts, { Options, SeriesLineOptions } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { store } from "../store/store";
+import { ResponseData } from "../fetch/Fetch";
 
-const options: Options = {
-  title: {
-    text: "Confirmed Covid-19 Cases",
-  },
-  series: [
-    {
+const buildSeries = (dataByCountry: ResponseData): SeriesLineOptions[] => {
+  return Object.entries(dataByCountry).map(([country, entries]) => {
+    return {
+      name: country,
+      data: entries.map((entry) => entry.confirmed),
       type: "line",
-      data: [
-        { x: 1, y: 9, name: "Point 1" },
-        { x: 2, y: 10, name: "Point 2" },
-        { x: 3, y: 15, name: "Point 3" },
-      ],
+    };
+  });
+};
+
+const buildOptions = (dataByCountry: ResponseData): Options => {
+  return {
+    title: {
+      text: "Confirmed Covid-19 Cases",
     },
-    {
-      type: "line",
-      data: [2, 3, 4],
+    xAxis: {
+      categories: dataByCountry?.US?.map((entry) => entry.date),
+      title: {
+        text: "Date",
+      },
     },
-  ],
-  // xAxis: {
-  //   title: {
-  //     text: 'Date',
-  //   }
-  // }
+    yAxis: {
+      title: {
+        text: "Confirmed Cases",
+      },
+    },
+    series: buildSeries(dataByCountry),
+    credits: { enabled: false },
+  };
 };
 
 export const Chart = () => {
   const {
-    state: { data, loading, error },
+    state: { dataByCountry, loading, error },
   } = useContext(store);
-  const [chartOptions, setChartOptions] = useState<Options>(options);
-  console.log("state", data);
+  console.log("state", dataByCountry);
 
-  useEffect(() => {
-    console.log(Object.keys(data));
-    const nextSeries = Object.entries(data).map(([country, entries], index) => {
-      return {
-        name: country,
-        type: "line",
-        data: entries.map((entry, index) => {
-          return {
-            x: index,
-            y: entry.confirmed,
-            name: entry.date,
-          };
-        }),
-        // xAxis: {
-        //   title: {
-        //     text: "Date",
-        //   },
-        // },
-        // yAxis: {
-        //   title: {
-        //     text: "Confirmed Cases",
-        //   },
-        // },
-      };
-    });
-    setChartOptions({
-      // @ts-ignore
-      series: nextSeries,
-    });
-  }, [data, loading]);
+  if (loading) return null;
+  if (error) return null;
 
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={buildOptions(dataByCountry)}
+    />
+  );
 };

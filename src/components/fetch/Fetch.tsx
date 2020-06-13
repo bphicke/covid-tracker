@@ -3,13 +3,13 @@ import axios from "axios";
 import { store, Action } from "../store/store";
 import { actionTypes } from "../store/actions";
 
-type OneDayCovid = {
+export type OneDayCovid = {
   confirmed: number;
-  date: "string";
+  date: string;
 };
 
 export type ResponseData = Record<string, OneDayCovid[]>;
-
+//TODO: cache date in local storage
 const fetchData = async (dispatch: Dispatch<Action>) => {
   try {
     dispatch({

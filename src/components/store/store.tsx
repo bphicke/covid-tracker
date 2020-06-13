@@ -7,7 +7,7 @@ type Context = {
   dispatch: Dispatch<Action>;
 };
 
-const initialState = { loading: false, error: false, data: {} };
+const initialState = { loading: false, error: false, dataByCountry: {} };
 
 const store = createContext<Context>({
   state: { ...initialState },
@@ -18,7 +18,7 @@ const { Provider } = store;
 export type State = {
   loading: boolean;
   error: boolean;
-  data: ResponseData;
+  dataByCountry: ResponseData;
 };
 
 export type CovidDataAction = {
@@ -45,8 +45,8 @@ const reducer = (state: State, action: Action): State => {
       // const { location, data } = action.payload;
       return {
         ...state,
-        data: {
-          ...state.data,
+        dataByCountry: {
+          ...state.dataByCountry,
           ...action.payload,
         },
       };
