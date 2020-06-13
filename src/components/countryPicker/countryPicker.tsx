@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { countryList } from "../shared/countryList";
 import { FormControlLabel, Checkbox, FormGroup, Card } from "@material-ui/core";
+import { SelectedCountries } from "../../App";
 
-export const CountryPicker = () => {
-  const [selectedCountries, setSelectedCountries] = useState<
-    Record<string, boolean>
-  >({});
+type Props = {
+  selectedCountries: SelectedCountries;
+  setSelectedCountries: Dispatch<SetStateAction<SelectedCountries>>;
+};
+
+export const CountryPicker = ({
+  selectedCountries,
+  setSelectedCountries,
+}: Props) => {
   const handleToggleCountry = (country: string) => () => {
     setSelectedCountries((prevState) => {
       console.log("prevState", prevState);

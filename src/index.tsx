@@ -5,15 +5,12 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider, CssBaseline } from "@material-ui/core";
 import theme from "./theme";
-import { StateProvider } from "./components/store/store";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <StateProvider>
-        <CssBaseline />
-        <App />
-      </StateProvider>
+      <CssBaseline />
+      <App />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root"),
