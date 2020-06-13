@@ -4,6 +4,7 @@ import { Typography, AppBar, Container, Card } from "@material-ui/core";
 import { store } from "./components/store/store";
 import { FetchCovidData } from "./components/fetch/Fetch";
 import { Chart } from "./components/chart/Chart";
+import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
 
 function App() {
   const globalState = useContext(store);
@@ -22,6 +23,7 @@ function App() {
             <Chart />
           </Typography>
         </Card>
+        <DateRangePicker />
       </Container>
     </>
   );
