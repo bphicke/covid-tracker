@@ -5,7 +5,7 @@ import { store } from "./components/store/store";
 import { FetchCovidData } from "./components/fetch/Fetch";
 import { Chart } from "./components/chart/Chart";
 import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
-
+import { CountryPicker } from "./components/countryPicker/countryPicker";
 function App() {
   const globalState = useContext(store);
   console.log(globalState);
@@ -24,6 +24,7 @@ function App() {
           </Typography>
         </Card>
         <DateRangePicker />
+        <CountryPicker />
       </Container>
     </>
   );
