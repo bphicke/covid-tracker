@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Typography, AppBar, Container, Card } from "@material-ui/core";
+import { Typography, AppBar, Grid } from "@material-ui/core";
 import { FetchCovidData } from "./components/fetch/Fetch";
 import { Chart } from "./components/chart/Chart";
 import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
@@ -12,8 +12,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [dataByCountry, setDataByCountry] = useState<DataByCountry>({});
-
-  //refactored Inputs
+  const [countryList, setCountryList] = useState<string[]>([]);
   const [countriesInputs, setCountriesInputs] = useState<CountriesInputs>({
     US: { selected: true },
   });
@@ -21,6 +20,10 @@ function App() {
     new Date("2020-01-22T21:11:54"),
   );
   const [endDate, setEndDate] = useState<Date | null>(new Date());
+
+  useEffect(() => {
+    setCountryList(Object.keys(dataByCountry));
+  }, [dataByCountry]);
 
   return (
     <>
@@ -34,8 +37,8 @@ function App() {
         setError={setError}
         setDataByCountry={setDataByCountry}
       />
-      <Container maxWidth="sm">
-        <Card>
+      <Grid container>
+        <Grid item xs={12}>
           <Typography variant="h4" component="h2" gutterBottom color="inherit">
             <Chart
               loading={loading}
@@ -46,22 +49,27 @@ function App() {
               endDate={endDate}
             />
           </Typography>
-        </Card>
+        </Grid>
+        <Grid item xs={12}>
+          <DateRangePicker
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+        </Grid>
+
+        <CountryPicker
+          countriesInputs={countriesInputs}
+          setCountriesInputs={setCountriesInputs}
+          countryList={countryList}
+          loading={loading}
+        />
         <ColorPicker
           countriesInputs={countriesInputs}
           setCountriesInputs={setCountriesInputs}
         />
-        <DateRangePicker
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-        />
-        <CountryPicker
-          countriesInputs={countriesInputs}
-          setCountriesInputs={setCountriesInputs}
-        />
-      </Container>
+      </Grid>
     </>
   );
 }

@@ -1,16 +1,19 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
-import { countryList } from "../shared/countryList";
 import { FormControlLabel, Checkbox, FormGroup, Card } from "@material-ui/core";
 import { CountriesInputs } from "../shared/types";
 
 type Props = {
   countriesInputs: CountriesInputs;
   setCountriesInputs: Dispatch<SetStateAction<CountriesInputs>>;
+  countryList: string[];
+  loading: boolean;
 };
 
 export const CountryPicker = ({
   countriesInputs,
   setCountriesInputs,
+  countryList,
+  loading,
 }: Props) => {
   const handleToggleCountry = useCallback(
     (country: string) => () => {
@@ -24,6 +27,8 @@ export const CountryPicker = ({
     },
     [setCountriesInputs],
   );
+
+  if (loading) return null;
 
   return (
     <Card>
