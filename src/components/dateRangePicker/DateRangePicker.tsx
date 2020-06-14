@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import { Card, Grid } from "@material-ui/core";
 import {
@@ -6,16 +6,19 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 
-export const DateRangePicker = () => {
-  const [startDate, setStartDate] = useState<Date | null>(
-    new Date("2020-01-22T21:11:54"),
-  );
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+type Props = {
+  startDate: Date | null;
+  setStartDate: Dispatch<SetStateAction<Date | null>>;
+  endDate: Date | null;
+  setEndDate: Dispatch<SetStateAction<Date | null>>;
+};
 
-  // const handleDateChange = (date: Date) => {
-  //   setStartDate(new Date(date));
-  // };
-
+export const DateRangePicker = ({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}: Props) => {
   return (
     <Card>
       <Grid container justify="space-around">

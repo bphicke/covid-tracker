@@ -6,15 +6,26 @@ import { DataByCountry, CountriesInputs } from "../shared/types";
 const buildSeries = (
   dataByCountry: DataByCountry,
   countriesInputs: CountriesInputs,
+  startDate: Date | null,
+  endDate: Date | null,
 ): SeriesLineOptions[] => {
   return Object.entries(dataByCountry)
     .filter(([country]) => {
       return countriesInputs[country]?.selected;
     })
     .map(([country, entries]) => {
+      let filteredData = entries
+        .filter((entry) => {
+          return Date.parse(entry.date) >= startDate!.getTime();
+        })
+        .filter((entry) => {
+          return Date.parse(entry.date) <= endDate!.getTime();
+        })
+        .map((entry) => entry.confirmed);
+      console.log("filteredData", filteredData);
       return {
         name: country,
-        data: entries.map((entry) => entry.confirmed),
+        data: filteredData,
         type: "line",
         color: countriesInputs[country]?.color?.hex,
       };
@@ -24,6 +35,8 @@ const buildSeries = (
 const buildOptions = (
   dataByCountry: DataByCountry,
   countriesInputs: CountriesInputs,
+  startDate: Date | null,
+  endDate: Date | null,
 ): Options => {
   return {
     title: {
@@ -41,7 +54,7 @@ const buildOptions = (
         text: "Confirmed Cases",
       },
     },
-    series: buildSeries(dataByCountry, countriesInputs),
+    series: buildSeries(dataByCountry, countriesInputs, startDate, endDate),
     credits: { enabled: false },
   };
 };
@@ -51,6 +64,8 @@ type Props = {
   error: boolean;
   dataByCountry: DataByCountry;
   countriesInputs: CountriesInputs;
+  startDate: Date | null;
+  endDate: Date | null;
 };
 
 export const Chart = ({
@@ -58,6 +73,8 @@ export const Chart = ({
   error,
   dataByCountry,
   countriesInputs,
+  startDate,
+  endDate,
 }: Props) => {
   console.log("state", dataByCountry);
 
@@ -67,7 +84,7 @@ export const Chart = ({
   return (
     <HighchartsReact
       highcharts={Highcharts}
-      options={buildOptions(dataByCountry, countriesInputs)}
+      options={buildOptions(dataByCountry, countriesInputs, startDate, endDate)}
     />
   );
 };

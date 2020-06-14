@@ -8,32 +8,19 @@ import { CountryPicker } from "./components/countryPicker/countryPicker";
 import { ColorPicker } from "./components/colorPicker/ColorPicker";
 import { DataByCountry, CountriesInputs } from "./components/shared/types";
 
-// const filterCountries = (
-//   dataByCountry: DataByCountry,
-//   selectedCountries: SelectedCountries,
-//   setFilteredCountries: Dispatch<SetStateAction<DataByCountry>>,
-// ) => {
-//   const filteredCountries: DataByCountry = {};
-//   for (let key in selectedCountries) {
-//     filteredCountries[key] = dataByCountry[key];
-//   }
-//   setFilteredCountries(filteredCountries);
-// };
-
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [dataByCountry, setDataByCountry] = useState<DataByCountry>({});
-  // const [filteredCountries, setFilteredCountries] = useState<DataByCountry>({});
 
   //refactored Inputs
   const [countriesInputs, setCountriesInputs] = useState<CountriesInputs>({
     US: { selected: true },
   });
-
-  // useEffect(() => {
-  //   filterCountries(dataByCountry, selectedCountries, setFilteredCountries);
-  // }, [dataByCountry, selectedCountries]);
+  const [startDate, setStartDate] = useState<Date | null>(
+    new Date("2020-01-22T21:11:54"),
+  );
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
 
   return (
     <>
@@ -55,6 +42,8 @@ function App() {
               error={error}
               dataByCountry={dataByCountry}
               countriesInputs={countriesInputs}
+              startDate={startDate}
+              endDate={endDate}
             />
           </Typography>
         </Card>
@@ -62,7 +51,12 @@ function App() {
           countriesInputs={countriesInputs}
           setCountriesInputs={setCountriesInputs}
         />
-        <DateRangePicker />
+        <DateRangePicker
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
         <CountryPicker
           countriesInputs={countriesInputs}
           setCountriesInputs={setCountriesInputs}
