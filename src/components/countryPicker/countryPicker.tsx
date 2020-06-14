@@ -1,26 +1,29 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useCallback } from "react";
 import { countryList } from "../shared/countryList";
 import { FormControlLabel, Checkbox, FormGroup, Card } from "@material-ui/core";
-import { SelectedCountries } from "../../App";
+import { CountriesInputs } from "../shared/types";
 
 type Props = {
-  selectedCountries: SelectedCountries;
-  setSelectedCountries: Dispatch<SetStateAction<SelectedCountries>>;
+  countriesInputs: CountriesInputs;
+  setCountriesInputs: Dispatch<SetStateAction<CountriesInputs>>;
 };
 
 export const CountryPicker = ({
-  selectedCountries,
-  setSelectedCountries,
+  countriesInputs,
+  setCountriesInputs,
 }: Props) => {
-  const handleToggleCountry = (country: string) => () => {
-    setSelectedCountries((prevState) => {
-      console.log("prevState", prevState);
-      return {
+  const handleToggleCountry = useCallback(
+    (country: string) => () => {
+      setCountriesInputs((prevState) => ({
         ...prevState,
-        [country]: !prevState[country],
-      };
-    });
-  };
+        [country]: {
+          ...prevState[country],
+          selected: !prevState[country]?.selected,
+        },
+      }));
+    },
+    [setCountriesInputs],
+  );
 
   return (
     <Card>
@@ -30,7 +33,7 @@ export const CountryPicker = ({
             key={country}
             control={
               <Checkbox
-                checked={!!selectedCountries[country]}
+                checked={!!countriesInputs[country]?.selected}
                 onChange={handleToggleCountry(country)}
                 name={country}
               />

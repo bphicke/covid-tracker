@@ -1,28 +1,29 @@
 import React from "react";
 import Highcharts, { Options, SeriesLineOptions } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { DataByCountry, SelectedCountries } from "../../App";
+import { DataByCountry, CountriesInputs } from "../shared/types";
 
 const buildSeries = (
   dataByCountry: DataByCountry,
-  selectedCountries: SelectedCountries,
+  countriesInputs: CountriesInputs,
 ): SeriesLineOptions[] => {
   return Object.entries(dataByCountry)
     .filter(([country]) => {
-      return selectedCountries[country];
+      return countriesInputs[country]?.selected;
     })
     .map(([country, entries]) => {
       return {
         name: country,
         data: entries.map((entry) => entry.confirmed),
         type: "line",
+        color: countriesInputs[country]?.color?.hex,
       };
     });
 };
 
 const buildOptions = (
   dataByCountry: DataByCountry,
-  selectedCountries: SelectedCountries,
+  countriesInputs: CountriesInputs,
 ): Options => {
   return {
     title: {
@@ -40,28 +41,23 @@ const buildOptions = (
         text: "Confirmed Cases",
       },
     },
-    series: buildSeries(dataByCountry, selectedCountries),
+    series: buildSeries(dataByCountry, countriesInputs),
     credits: { enabled: false },
   };
-};
-
-export type Entry = {
-  date: Date;
-  confirmed: number;
 };
 
 type Props = {
   loading: boolean;
   error: boolean;
   dataByCountry: DataByCountry;
-  selectedCountries: SelectedCountries;
+  countriesInputs: CountriesInputs;
 };
 
 export const Chart = ({
   loading,
   error,
   dataByCountry,
-  selectedCountries,
+  countriesInputs,
 }: Props) => {
   console.log("state", dataByCountry);
 
@@ -71,7 +67,7 @@ export const Chart = ({
   return (
     <HighchartsReact
       highcharts={Highcharts}
-      options={buildOptions(dataByCountry, selectedCountries)}
+      options={buildOptions(dataByCountry, countriesInputs)}
     />
   );
 };

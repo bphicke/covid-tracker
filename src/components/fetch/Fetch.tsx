@@ -1,11 +1,6 @@
 import { useEffect, Dispatch, SetStateAction } from "react";
 import axios from "axios";
-import { DataByCountry } from "../../App";
-
-export type OneDayCovid = {
-  confirmed: number;
-  date: string;
-};
+import { DataByCountry } from "../shared/types";
 
 //TODO: cache date in local storage
 const fetchData = async ({ setLoading, setError, setDataByCountry }: Props) => {

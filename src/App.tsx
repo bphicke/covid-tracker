@@ -1,21 +1,40 @@
 import React, { useState } from "react";
 import "./App.css";
 import { Typography, AppBar, Container, Card } from "@material-ui/core";
-import { FetchCovidData, OneDayCovid } from "./components/fetch/Fetch";
+import { FetchCovidData } from "./components/fetch/Fetch";
 import { Chart } from "./components/chart/Chart";
 import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
 import { CountryPicker } from "./components/countryPicker/countryPicker";
+import { ColorPicker } from "./components/colorPicker/ColorPicker";
+import { DataByCountry, CountriesInputs } from "./components/shared/types";
 
-export type SelectedCountries = Record<string, boolean>;
-export type DataByCountry = Record<string, OneDayCovid[]>;
+// const filterCountries = (
+//   dataByCountry: DataByCountry,
+//   selectedCountries: SelectedCountries,
+//   setFilteredCountries: Dispatch<SetStateAction<DataByCountry>>,
+// ) => {
+//   const filteredCountries: DataByCountry = {};
+//   for (let key in selectedCountries) {
+//     filteredCountries[key] = dataByCountry[key];
+//   }
+//   setFilteredCountries(filteredCountries);
+// };
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [dataByCountry, setDataByCountry] = useState<DataByCountry>({});
-  const [selectedCountries, setSelectedCountries] = useState<SelectedCountries>(
-    {},
-  );
+  // const [filteredCountries, setFilteredCountries] = useState<DataByCountry>({});
+
+  //refactored Inputs
+  const [countriesInputs, setCountriesInputs] = useState<CountriesInputs>({
+    US: { selected: true },
+  });
+
+  // useEffect(() => {
+  //   filterCountries(dataByCountry, selectedCountries, setFilteredCountries);
+  // }, [dataByCountry, selectedCountries]);
+
   return (
     <>
       <AppBar position="static">
@@ -35,14 +54,18 @@ function App() {
               loading={loading}
               error={error}
               dataByCountry={dataByCountry}
-              selectedCountries={selectedCountries}
+              countriesInputs={countriesInputs}
             />
           </Typography>
         </Card>
+        <ColorPicker
+          countriesInputs={countriesInputs}
+          setCountriesInputs={setCountriesInputs}
+        />
         <DateRangePicker />
         <CountryPicker
-          selectedCountries={selectedCountries}
-          setSelectedCountries={setSelectedCountries}
+          countriesInputs={countriesInputs}
+          setCountriesInputs={setCountriesInputs}
         />
       </Container>
     </>
