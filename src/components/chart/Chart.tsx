@@ -1,7 +1,8 @@
 import React from "react";
-import Highcharts, { Options, SeriesLineOptions } from "highcharts";
+import Highcharts, { SeriesLineOptions } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { DataByCountry, CountriesInputs } from "../shared/types";
+import { DataTable } from "../DataTable/Table";
 
 const buildSeries = (
   dataByCountry: DataByCountry,
@@ -37,14 +38,20 @@ const buildOptions = (
   countriesInputs: CountriesInputs,
   startDate: Date | null,
   endDate: Date | null,
-): Options => {
+) => {
   return {
     title: {
       text: "Confirmed Covid-19 Cases",
     },
     xAxis: {
       //TODO: put this in a function
-      categories: dataByCountry?.US?.map((entry) => entry.date),
+      categories: dataByCountry?.US?.map((entry) => entry.date)
+        .filter((date) => {
+          return Date.parse(date) >= startDate!.getTime();
+        })
+        .filter((date) => {
+          return Date.parse(date) <= endDate!.getTime();
+        }),
       title: {
         text: "Date",
       },
@@ -60,8 +67,6 @@ const buildOptions = (
 };
 
 type Props = {
-  loading: boolean;
-  error: boolean;
   dataByCountry: DataByCountry;
   countriesInputs: CountriesInputs;
   startDate: Date | null;
@@ -69,8 +74,6 @@ type Props = {
 };
 
 export const Chart = ({
-  loading,
-  error,
   dataByCountry,
   countriesInputs,
   startDate,
@@ -78,13 +81,17 @@ export const Chart = ({
 }: Props) => {
   console.log("state", dataByCountry);
 
-  if (loading) return null;
-  if (error) return null;
+  const options = buildOptions(
+    dataByCountry,
+    countriesInputs,
+    startDate,
+    endDate,
+  );
 
   return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={buildOptions(dataByCountry, countriesInputs, startDate, endDate)}
-    />
+    <>
+      <HighchartsReact highcharts={Highcharts} options={options} />
+      <DataTable dates={options.xAxis.categories} rowsData={options.series} />
+    </>
   );
 };

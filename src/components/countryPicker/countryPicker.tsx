@@ -7,17 +7,13 @@ type Props = {
   countriesInputs: CountriesInputs;
   setCountriesInputs: Dispatch<SetStateAction<CountriesInputs>>;
   countryList: string[];
-  loading: boolean;
 };
 
 export const CountryPicker = ({
   countriesInputs,
   setCountriesInputs,
   countryList,
-  loading,
 }: Props) => {
-  if (loading) return null;
-
   return (
     <Autocomplete
       onChange={(_event, _selectedValues, action, value) => {
