@@ -20,29 +20,27 @@ export const DateRangePicker = ({
   setEndDate,
 }: Props) => {
   return (
-    <Card>
-      <Grid container justify="space-around">
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            margin="normal"
-            id="start-date"
-            label="Start Date"
-            format="MM/dd/yyyy"
-            value={startDate}
-            onChange={setStartDate}
-          />
-          <KeyboardDatePicker
-            disableToolbar
-            margin="normal"
-            id="end-date"
-            label="End Date"
-            format="MM/dd/yyyy"
-            value={endDate}
-            onChange={setEndDate}
-          />
-        </MuiPickersUtilsProvider>
-      </Grid>
-    </Card>
+    <Grid container justify="space-around">
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
+          disableToolbar
+          margin="normal"
+          id="start-date"
+          label="Start Date"
+          format="MM/dd/yyyy"
+          value={startDate}
+          onChange={setStartDate}
+        />
+        <KeyboardDatePicker
+          disableToolbar
+          margin="normal"
+          id="end-date"
+          label="End Date"
+          format="MM/dd/yyyy"
+          value={endDate}
+          onChange={setEndDate}
+        />
+      </MuiPickersUtilsProvider>
+    </Grid>
   );
 };

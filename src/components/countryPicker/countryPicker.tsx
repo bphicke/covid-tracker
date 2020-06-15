@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useCallback } from "react";
-import { FormControlLabel, Checkbox, FormGroup, Card } from "@material-ui/core";
 import { CountriesInputs } from "../shared/types";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
 type Props = {
   countriesInputs: CountriesInputs;
@@ -15,38 +16,50 @@ export const CountryPicker = ({
   countryList,
   loading,
 }: Props) => {
-  const handleToggleCountry = useCallback(
-    (country: string) => () => {
-      setCountriesInputs((prevState) => ({
-        ...prevState,
-        [country]: {
-          ...prevState[country],
-          selected: !prevState[country]?.selected,
-        },
-      }));
-    },
-    [setCountriesInputs],
-  );
-
   if (loading) return null;
 
   return (
-    <Card>
-      <FormGroup row>
-        {countryList.map((country) => (
-          <FormControlLabel
-            key={country}
-            control={
-              <Checkbox
-                checked={!!countriesInputs[country]?.selected}
-                onChange={handleToggleCountry(country)}
-                name={country}
-              />
-            }
-            label={country}
+    <Autocomplete
+      onChange={(_event, _selectedValues, action, value) => {
+        console.log("action", action);
+        if (action === "remove-option") {
+          setCountriesInputs((prevState) => ({
+            ...prevState,
+            [value!.option]: {
+              ...prevState[value!.option],
+              selected: false,
+            },
+          }));
+        }
+        if (action === "select-option") {
+          setCountriesInputs((prevState) => ({
+            ...prevState,
+            [value!.option]: {
+              ...prevState[value!.option],
+              selected: true,
+            },
+          }));
+        }
+      }}
+      options={countryList}
+      multiple
+      autoHighlight
+      filterSelectedOptions
+      value={Object.keys(countriesInputs).filter(
+        (country) => countriesInputs[country].selected,
+      )}
+      getOptionLabel={(option: string) => option}
+      renderOption={(option: string) => <span>{option}</span>}
+      renderInput={(params: unknown) => {
+        console.log("params", params);
+        return (
+          <TextField
+            {...params}
+            label={"Choose a country"}
+            variant="outlined"
           />
-        ))}
-      </FormGroup>
-    </Card>
+        );
+      }}
+    />
   );
 };

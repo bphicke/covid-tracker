@@ -58,13 +58,14 @@ function App() {
             setEndDate={setEndDate}
           />
         </Grid>
-
-        <CountryPicker
-          countriesInputs={countriesInputs}
-          setCountriesInputs={setCountriesInputs}
-          countryList={countryList}
-          loading={loading}
-        />
+        <Grid item xs={12}>
+          <CountryPicker
+            countriesInputs={countriesInputs}
+            setCountriesInputs={setCountriesInputs}
+            countryList={countryList}
+            loading={loading}
+          />
+        </Grid>
         <ColorPicker
           countriesInputs={countriesInputs}
           setCountriesInputs={setCountriesInputs}
