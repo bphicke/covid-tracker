@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
+  Typography,
 } from "@material-ui/core";
 import { SeriesLineOptions } from "highcharts";
 
@@ -22,7 +23,13 @@ export const DataTable = ({ dates, rowsData }: Props) => {
           <TableRow>
             <TableCell>Country</TableCell>
             {dates.map((date) => {
-              return <TableCell key={date}>{date}</TableCell>;
+              return (
+                <TableCell key={date}>
+                  <Typography variant="body2" noWrap>
+                    {date}
+                  </Typography>
+                </TableCell>
+              );
             })}
           </TableRow>
           {rowsData.map((rowData) => {
@@ -36,6 +43,7 @@ export const DataTable = ({ dates, rowsData }: Props) => {
                 {rowData.data?.map((confirmed) => {
                   return (
                     <TableCell
+                      align="right"
                       style={{ color: (rowData.color as string) || "black" }}
                     >
                       {confirmed}
