@@ -33,6 +33,20 @@ const buildSeries = (
     });
 };
 
+const buildCategories = (
+  dataByCountry: DataByCountry,
+  startDate: Date | null,
+  endDate: Date | null,
+) => {
+  return dataByCountry?.US?.map((entry) => entry.date)
+    .filter((date) => {
+      return Date.parse(date) >= startDate!.getTime();
+    })
+    .filter((date) => {
+      return Date.parse(date) <= endDate!.getTime();
+    });
+};
+
 const buildOptions = (
   dataByCountry: DataByCountry,
   countriesInputs: CountriesInputs,
@@ -44,14 +58,7 @@ const buildOptions = (
       text: "Confirmed Covid-19 Cases",
     },
     xAxis: {
-      //TODO: put this in a function
-      categories: dataByCountry?.US?.map((entry) => entry.date)
-        .filter((date) => {
-          return Date.parse(date) >= startDate!.getTime();
-        })
-        .filter((date) => {
-          return Date.parse(date) <= endDate!.getTime();
-        }),
+      categories: buildCategories(dataByCountry, startDate, endDate),
       title: {
         text: "Date",
       },
