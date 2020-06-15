@@ -38,6 +38,9 @@ const buildCategories = (
   startDate: Date | null,
   endDate: Date | null,
 ) => {
+  console.log("startDate", startDate);
+  console.log("endDate", endDate);
+
   return dataByCountry?.US?.map((entry) => entry.date)
     .filter((date) => {
       return Date.parse(date) >= startDate!.getTime();
@@ -47,7 +50,7 @@ const buildCategories = (
     });
 };
 
-const buildOptions = (
+export const buildOptions = (
   dataByCountry: DataByCountry,
   countriesInputs: CountriesInputs,
   startDate: Date | null,

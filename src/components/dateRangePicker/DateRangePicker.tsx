@@ -19,6 +19,13 @@ export const DateRangePicker = ({
   endDate,
   setEndDate,
 }: Props) => {
+  const handlesetDate = (setDate: Dispatch<SetStateAction<Date | null>>) => (
+    date: Date | null,
+  ) => {
+    date!.setHours(0, 0, 0, 0);
+    setDate(date);
+  };
+
   return (
     <Grid container justify="space-around">
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -29,7 +36,7 @@ export const DateRangePicker = ({
           label="Start Date"
           format="MM/dd/yyyy"
           value={startDate}
-          onChange={setStartDate}
+          onChange={handlesetDate(setStartDate)}
         />
         <KeyboardDatePicker
           disableToolbar
@@ -38,7 +45,7 @@ export const DateRangePicker = ({
           label="End Date"
           format="MM/dd/yyyy"
           value={endDate}
-          onChange={setEndDate}
+          onChange={handlesetDate(setEndDate)}
         />
       </MuiPickersUtilsProvider>
     </Grid>
