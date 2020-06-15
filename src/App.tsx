@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Typography, AppBar, Grid } from "@material-ui/core";
+import { Typography, AppBar, Grid, Tabs, Tab } from "@material-ui/core";
 import { FetchCovidData } from "./components/fetch/Fetch";
 import { Chart } from "./components/chart/Chart";
 import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
@@ -9,6 +9,7 @@ import { ColorPicker } from "./components/colorPicker/ColorPicker";
 import { DataByCountry, CountriesInputs } from "./components/shared/types";
 
 function App() {
+  const [selectedTab, setSelectedTab] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [dataByCountry, setDataByCountry] = useState<DataByCountry>({});
@@ -25,52 +26,70 @@ function App() {
     setCountryList(Object.keys(dataByCountry));
   }, [dataByCountry]);
 
+  const handleTabChange = (_e: React.ChangeEvent<{}>, newValue: number) => {
+    setSelectedTab(newValue);
+  };
   return (
     <>
       <AppBar position="static">
         <Typography variant="h4" component="h1" gutterBottom color="inherit">
           Covid Tracker
         </Typography>
+        <Tabs value={selectedTab} onChange={handleTabChange}>
+          <Tab label="Time-Series Graph" />
+          <Tab label="Customize Colors" />
+        </Tabs>
       </AppBar>
       <FetchCovidData
         setLoading={setLoading}
         setError={setError}
         setDataByCountry={setDataByCountry}
       />
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="h4" component="h2" gutterBottom color="inherit">
-            <Chart
-              loading={loading}
-              error={error}
-              dataByCountry={dataByCountry}
-              countriesInputs={countriesInputs}
+      {selectedTab === 0 && (
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              component="h2"
+              gutterBottom
+              color="inherit"
+            >
+              <Chart
+                loading={loading}
+                error={error}
+                dataByCountry={dataByCountry}
+                countriesInputs={countriesInputs}
+                startDate={startDate}
+                endDate={endDate}
+              />
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <DateRangePicker
               startDate={startDate}
+              setStartDate={setStartDate}
               endDate={endDate}
+              setEndDate={setEndDate}
             />
-          </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <CountryPicker
+              countriesInputs={countriesInputs}
+              setCountriesInputs={setCountriesInputs}
+              countryList={countryList}
+              loading={loading}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <DateRangePicker
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <CountryPicker
+      )}
+      {selectedTab === 1 && (
+        <Grid container>
+          <ColorPicker
             countriesInputs={countriesInputs}
             setCountriesInputs={setCountriesInputs}
-            countryList={countryList}
-            loading={loading}
           />
         </Grid>
-        <ColorPicker
-          countriesInputs={countriesInputs}
-          setCountriesInputs={setCountriesInputs}
-        />
-      </Grid>
+      )}
     </>
   );
 }

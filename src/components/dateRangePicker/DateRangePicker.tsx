@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import DateFnsUtils from "@date-io/date-fns";
-import { Card, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
