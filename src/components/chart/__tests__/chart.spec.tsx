@@ -1,5 +1,5 @@
-import { buildOptions } from "../Chart";
 import { DataByCountry, CountriesInputs } from "../../shared/types";
+import { buildOptions } from "../helpers";
 
 describe("buildOptions", () => {
   it("should build options", () => {

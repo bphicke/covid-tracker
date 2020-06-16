@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Typography, AppBar, Grid, Tabs, Tab, Box } from "@material-ui/core";
-import { Chart } from "./components/chart/Chart";
-import { DateRangePicker } from "./components/dateRangePicker/DateRangePicker";
-import { CountryPicker } from "./components/countryPicker/countryPicker";
-import { ColorPicker } from "./components/colorPicker/ColorPicker";
+import { Chart } from "./components/chart/chart";
+import { DateRangePicker } from "./components/date-range-picker/date-range-picker";
+import { CountryPicker } from "./components/country-picker/country-picker";
+import { ColorPicker } from "./components/color-picker/color-picker";
 import { DataByCountry, CountriesInputs } from "./components/shared/types";
-import { fetchData } from "./components/services/fetchCovidData";
-import { TabContainer } from "./components/TabContainer/TabContainer";
-import { Loading } from "./components/Loading/Loading";
+import { fetchData } from "./components/services/fetch-covid-data";
+import { TabContainer } from "./components/tab-container/tab-container";
+import { Loading } from "./components/loading/loading";
 
 function App() {
   const [selectedTab, setSelectedTab] = useState<number>(0);

@@ -15,7 +15,8 @@ export const fetchData = async (
       ...timeSeriesData.data,
     });
     setLoading(false);
-  } catch {
+  } catch (e) {
+    console.log(e);
     setError(true);
   }
 };
