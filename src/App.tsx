@@ -7,8 +7,8 @@ import { CountryPicker } from "./components/country-picker/country-picker";
 import { ColorPicker } from "./components/color-picker/color-picker";
 import { DataByCountry, CountriesInputs } from "./components/shared/types";
 import { fetchData } from "./components/services/fetch-covid-data";
-import { TabContainer } from "./components/tab-container/tab-container";
 import { Loading } from "./components/loading/loading";
+import { TabContainer } from "./components/tab-container/tab-container";
 
 function App() {
   const [selectedTab, setSelectedTab] = useState<number>(0);
