@@ -23,7 +23,6 @@ const buildSeries = (
           return Date.parse(entry.date) <= endDate!.getTime();
         })
         .map((entry) => entry.confirmed);
-      console.log("filteredData", filteredData);
       return {
         name: country,
         data: filteredData,
@@ -38,9 +37,6 @@ const buildCategories = (
   startDate: Date | null,
   endDate: Date | null,
 ) => {
-  console.log("startDate", startDate);
-  console.log("endDate", endDate);
-
   return dataByCountry?.US?.map((entry) => entry.date)
     .filter((date) => {
       return Date.parse(date) >= startDate!.getTime();
@@ -89,8 +85,6 @@ export const Chart = ({
   startDate,
   endDate,
 }: Props) => {
-  console.log("state", dataByCountry);
-
   const options = buildOptions(
     dataByCountry,
     countriesInputs,

@@ -15,7 +15,7 @@ export const Loading: FunctionComponent<Props> = ({ loading, children }) => {
         alignItems="center"
         style={{ minHeight: "70vh" }}
       >
-        <CircularProgress />
+        <CircularProgress data-testid="loading" />
       </Grid>
     );
 

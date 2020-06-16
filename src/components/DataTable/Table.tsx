@@ -17,7 +17,7 @@ type Props = {
 
 export const DataTable = ({ dates, rowsData }: Props) => {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} data-testid="table">
       <Table>
         <TableHead>
           <TableRow>
@@ -32,17 +32,18 @@ export const DataTable = ({ dates, rowsData }: Props) => {
               );
             })}
           </TableRow>
-          {rowsData.map((rowData) => {
+          {rowsData.map((rowData, index) => {
             return (
-              <TableRow>
+              <TableRow key={`${rowData.name}-row-${index}`}>
                 <TableCell
                   style={{ color: (rowData.color as string) || "black" }}
                 >
                   {rowData.name}
                 </TableCell>
-                {rowData.data?.map((confirmed) => {
+                {rowData.data?.map((confirmed, index) => {
                   return (
                     <TableCell
+                      key={`${rowData.name}-cell-${index}`}
                       align="right"
                       style={{ color: (rowData.color as string) || "black" }}
                     >

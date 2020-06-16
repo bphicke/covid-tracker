@@ -8,13 +8,12 @@ export const fetchData = async (
   setDataByCountry: Dispatch<SetStateAction<DataByCountry>>,
 ) => {
   try {
-    const timeSeriesData = await axios(
+    const timeSeriesData = await axios.get(
       "https://pomber.github.io/covid19/timeseries.json",
     );
     setDataByCountry({
       ...timeSeriesData.data,
     });
-    console.log(timeSeriesData);
     setLoading(false);
   } catch {
     setError(true);

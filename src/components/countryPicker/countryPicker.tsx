@@ -31,10 +31,9 @@ export const CountryPicker = ({
   };
 
   return (
-    <Box pl={3} pr={3}>
+    <Box pl={3} pr={3} data-testid="countryPicker">
       <Autocomplete
         onChange={(_event, _selectedValues, action, value) => {
-          console.log("action", action);
           if (action === "remove-option") {
             toggleSelected(false, value!);
           }
@@ -52,7 +51,6 @@ export const CountryPicker = ({
         getOptionLabel={(option: string) => option}
         renderOption={(option: string) => <span>{option}</span>}
         renderInput={(params: unknown) => {
-          console.log("params", params);
           return (
             <TextField
               {...params}

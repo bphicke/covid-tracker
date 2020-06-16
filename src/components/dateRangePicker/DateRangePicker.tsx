@@ -27,7 +27,7 @@ export const DateRangePicker = ({
   };
 
   return (
-    <Grid container justify="space-around">
+    <Grid container justify="space-around" data-testid="dateRangePicker">
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
