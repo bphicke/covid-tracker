@@ -36,7 +36,6 @@ function App() {
     setSelectedTab(newValue);
   };
 
-  //push tabs down
   if (error) return null;
 
   return (
