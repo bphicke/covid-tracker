@@ -19,6 +19,9 @@ const mockData = {
       { confirmed: 6, date: "2020-4-23" },
     ],
   },
+  headers: {
+    expires: new Date("3000-4-16"),
+  },
 };
 
 describe("App", () => {
@@ -26,6 +29,9 @@ describe("App", () => {
     cleanup();
     jest.clearAllMocks();
   });
+
+  Storage.prototype.getItem = jest.fn(() => null);
+
   it("should render loading on page load", async () => {
     // @ts-ignore
     axiosMock.get.mockResolvedValueOnce(mockData);
