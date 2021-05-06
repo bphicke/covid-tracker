@@ -18,7 +18,7 @@
     "@types/react-dom": "^16.9.0",
     "axios": "^0.19.2",
     "date-fns": "2.8.1",
-    "highcharts": "^8.1.1",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^3.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
